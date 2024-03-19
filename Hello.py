@@ -13,39 +13,39 @@
 # limitations under the License.
 
 import streamlit as st
-from streamlit.logger import get_logger
-
-LOGGER = get_logger(__name__)
-
-
-def run():
-    st.set_page_config(
-        page_title="Hello",
-        page_icon="👋",
-    )
-
-    st.write("# Welcome to Streamlit! 👋")
-
-    st.sidebar.success("Select a demo above.")
-
-    st.markdown(
-        """
-        Streamlit is an open-source app framework built specifically for
-        Machine Learning and Data Science projects.
-        **👈 Select a demo from the sidebar** to see some examples
-        of what Streamlit can do!
-        ### Want to learn more?
-        - Check out [streamlit.io](https://streamlit.io)
-        - Jump into our [documentation](https://docs.streamlit.io)
-        - Ask a question in our [community
-          forums](https://discuss.streamlit.io)
-        ### See more complex demos
-        - Use a neural net to [analyze the Udacity Self-driving Car Image
-          Dataset](https://github.com/streamlit/demo-self-driving)
-        - Explore a [New York City rideshare dataset](https://github.com/streamlit/demo-uber-nyc-pickups)
-    """
-    )
+import pandas as pd 
+import os
+import warnings
+warnings.filterwarnings('ignore')
 
 
-if __name__ == "__main__":
-    run()
+
+st.set_page_config(page_title="Dashboards", page_icon=":bar_chart:", layout="wide")
+st.title(" :bar_chart: Dashboards")
+st.markdown('<style>div.block-container{padding-top:1rem;}</style>', unsafe_allow_html=True)
+
+fl = st.file_uploader(":file_folder: Upload a data file", type=(["csv", "xlsx", "xls"]))
+
+if fl is not None:
+    filename = fl.name
+    st.write(filename)
+    #df = pd.read_excel(filename)
+    df = pd.read_excel(io='FamilyOfficeEntityDataSampleV1.1.xlsx',
+                      engine='openpyxl',
+                       sheet_name='Client Profile' )
+    
+    #print(df)
+
+    col1, col2 = st.columns((2))
+    df["Date of Birth"] = pd.to_datetime(df["Date of Birth"])
+    startDate = pd.to_datetime(df["Date of Birth"]).min()
+    endDate = pd.to_datetime(df["Date of Birth"]).max()
+
+    with col1:
+        date1 = pd.to_datetime(st.date_input("Start Date", startDate))
+      
+    with col2:
+        date2 = pd.to_datetime(st.date_input("End Date", endDate))
+
+#df = df[(df["Date of Birth"] >= date1) & (df["Date of Birth"]) <= date2].copy
+
