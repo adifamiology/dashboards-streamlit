@@ -13,7 +13,7 @@
 # limitations under the License.
 
 import streamlit as st
-import plotly.express as px #pip install plotly_express
+import plotly.express as px #pip install plotly_express 
 import pandas as pd  #pip install pandas
 import os
 import warnings
