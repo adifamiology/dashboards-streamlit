@@ -19,9 +19,8 @@ import os
 import warnings
 warnings.filterwarnings('ignore')
 
-
-
 st.set_page_config(page_title="Client Review Dashboards", page_icon=":bar_chart:", layout="wide")
+
 st.title(" :bar_chart: Dashboards")
 st.markdown('<style>div.block-container{padding-top:1rem;}</style>', unsafe_allow_html=True)
 
@@ -54,13 +53,13 @@ df = df[(df["Date of Birth"] >= date1) & (df["Date of Birth"] <= date2)]
 st.sidebar.header("Choose your filter: ")
 
 #create for Status
-status = st.sidebar.multiselect("Pick the Status", df["Status"])
+status = st.sidebar.multiselect("Pick the Status", df["Status"].unique())
 if not status:
        df2 = df.copy()
 else:
       df2 = df[df["Status"].isin(status)]
 
-profession = st.sidebar.multiselect("Pick the Profession", df2["Profession"])
+profession = st.sidebar.multiselect("Pick the Profession", df2["Profession"].unique())
 if not profession:
        df3 = df2.copy()
 else:
